@@ -29,7 +29,8 @@ public class Smartphone extends Electronic {
     @Override
     public void create() {
         super.create();
-        simType = randomStringGenerator();
+        if (new Random().nextInt(2) == 0) simType = "Micro";
+        else simType = "Usual";
         simCount= new Random().nextInt(5) + 1;
     }
 
@@ -43,7 +44,13 @@ public class Smartphone extends Electronic {
     @Override
     public void update() {
         super.update();
-        simType = stringInputWithMessage("Input sim type");
+        int type = 0;
+        while (type < 1 || type > 2) {
+            System.out.println("Sim types:\n1. Micro\n2. Usual");
+            type = (int) doubleOrIntegerInputWithMessage("Choose sim type:", true);
+        }
+        if (type == 1) simType = "Micro";
+        else simType = "Usual";
         simCount = (int) doubleOrIntegerInputWithMessage("Input sim count", true);
     }
 

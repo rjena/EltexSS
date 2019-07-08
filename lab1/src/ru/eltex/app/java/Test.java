@@ -30,7 +30,7 @@ public class Test {
                 el.create();
                 el.read();
             }
-            System.out.println("Tested.");
+            System.out.printf("\n\nTested. %s objects created.", N);
         } catch (Exception E) {
             System.out.println(E.getMessage());
         }

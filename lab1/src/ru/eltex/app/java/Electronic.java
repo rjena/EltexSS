@@ -1,5 +1,7 @@
 package ru.eltex.app.java;
 
+import ru.eltex.app.java.Enums.*;
+
 import java.util.Random;
 import java.util.Scanner;
 import java.util.UUID;
@@ -66,11 +68,11 @@ public abstract class Electronic implements ICrudAction {
     @Override
     public void create() {
         id = UUID.randomUUID();
-        name = randomStringGenerator();
+        name = NameEnum.values()[new Random().nextInt(NameEnum.values().length)].toString();
         price = new Random().nextDouble();
-        firm = randomStringGenerator();
-        model = randomStringGenerator();
-        os = randomStringGenerator();
+        firm = FirmEnum.values()[new Random().nextInt(FirmEnum.values().length)].toString();
+        model = ModelEnum.values()[new Random().nextInt(ModelEnum.values().length)].toString();
+        os = OSEnum.values()[new Random().nextInt(OSEnum.values().length)].toString();
         count++;
     }
 
@@ -105,14 +107,6 @@ public abstract class Electronic implements ICrudAction {
         count--;
     }
 
-    static protected String randomStringGenerator() {
-        String tmp = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz0123456789";
-        StringBuilder s = new StringBuilder();
-        for (int i = 0; i < new Random().nextInt(11) + 5; i++)
-            s.append(tmp.charAt(new Random().nextInt(tmp.length())));
-        return s.toString();
-    }
-
     static protected double doubleOrIntegerInputWithMessage(String msg, boolean integer) {
         double d = 2;
         if (integer)
@@ -124,7 +118,29 @@ public abstract class Electronic implements ICrudAction {
     }
 
     static protected String stringInputWithMessage(String msg) {
-        String s = randomStringGenerator();
+        String s = "";
+        switch (msg.substring(6)) {
+            case "name":
+                s = NameEnum.values()[new Random().nextInt(NameEnum.values().length)].toString();
+                break;
+            case "firm":
+                s = FirmEnum.values()[new Random().nextInt(FirmEnum.values().length)].toString();
+                break;
+            case "model":
+                s = ModelEnum.values()[new Random().nextInt(ModelEnum.values().length)].toString();
+                break;
+            case "OS":
+                s = OSEnum.values()[new Random().nextInt(OSEnum.values().length)].toString();
+                break;
+            case "video processor":
+                s = VideoProcessorEnum.values()
+                        [new Random().nextInt(VideoProcessorEnum.values().length)].toString();
+                break;
+            case "screen resolution":
+                s = ScreenResolutionEnum.values()
+                        [new Random().nextInt(ScreenResolutionEnum.values().length)].toString();
+                break;
+        }
         System.out.printf(msg + " [default: %s]: ", s);
         String line = new Scanner(System.in).nextLine();
         return line.equals("") ? s : line;

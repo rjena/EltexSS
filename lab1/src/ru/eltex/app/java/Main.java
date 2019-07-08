@@ -3,8 +3,6 @@ package ru.eltex.app.java;
 import java.util.Scanner;
 
 public class Main {
-    static private Scanner sc = new Scanner(System.in);
-
     public static void main(String[] args) {
         int type = 0;
         while (type < 1 || type > 3) {

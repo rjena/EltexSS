@@ -1,5 +1,7 @@
 package ru.eltex.app.java;
 
+import java.util.Random;
+
 public class Phone extends Electronic {
     private String caseType;
 
@@ -18,7 +20,8 @@ public class Phone extends Electronic {
     @Override
     public void create() {
         super.create();
-        caseType = randomStringGenerator();
+        if (new Random().nextInt(2) == 0) caseType = "Classic";
+        else caseType = "Flip";
     }
 
     @Override
@@ -30,7 +33,13 @@ public class Phone extends Electronic {
     @Override
     public void update() {
         super.update();
-        caseType = stringInputWithMessage("Input case type");
+        int type = 0;
+        while (type < 1 || type > 2) {
+            System.out.println("Case types:\n1. Classic\n2. Flip");
+            type = (int) doubleOrIntegerInputWithMessage("Choose case type:", true);
+        }
+        if (type == 1) caseType = "Classic";
+        else caseType = "Flip";
     }
 
     @Override

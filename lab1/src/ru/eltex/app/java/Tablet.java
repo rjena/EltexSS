@@ -1,5 +1,10 @@
 package ru.eltex.app.java;
 
+import ru.eltex.app.java.Enums.ScreenResolutionEnum;
+import ru.eltex.app.java.Enums.VideoProcessorEnum;
+
+import java.util.Random;
+
 public class Tablet extends Electronic {
     String videoProcessor;
     String screenResolution;
@@ -27,8 +32,10 @@ public class Tablet extends Electronic {
     @Override
     public void create() {
         super.create();
-        videoProcessor = randomStringGenerator();
-        screenResolution= randomStringGenerator();
+        videoProcessor = VideoProcessorEnum.values()
+                [new Random().nextInt(VideoProcessorEnum.values().length)].toString();
+        screenResolution = ScreenResolutionEnum.values()
+                [new Random().nextInt(ScreenResolutionEnum.values().length)].toString();
     }
 
     @Override
