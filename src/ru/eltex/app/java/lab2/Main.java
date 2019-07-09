@@ -30,16 +30,18 @@ public class Main {
         Orders orders = new Orders();
         for (int i = 0; i < new Random().nextInt(4) + 3; i++) {
             ShoppingCart shoppingCart = new ShoppingCart();
-            Credentials cred = new Credentials("Surname"+(i+1), "Name"+(i+1),
-                    "Patronym"+(i+1), "Email"+(i+1)+"@gmail.com");
+            Credentials cred = new Credentials("Surname" + (i + 1), "Name" + (i + 1),
+                    "Patronym" + (i + 1), "Email" + (i + 1) + "@gmail.com");
+            System.out.printf("\nUser %s created\n", i + 1);
             for (int j = 0; j < new Random().nextInt(4) + 3; j++)
                 shoppingCart.add(electronics[new Random().nextInt(electronics.length)]);
             shoppingCart.delete(shoppingCart.getShoppingCart().get(new Random().nextInt(shoppingCart.getShoppingCart().size())));
             orders.offer(shoppingCart, cred);
             shoppingCart.add(electronics[new Random().nextInt(electronics.length)]);
             orders.offer(shoppingCart, cred);
+            System.out.printf("Shopping cart for User %s ordered\n", i + 1);
         }
 
-        System.out.println(orders.getOrders().get(0).getShoppingCart().containsID(UUID.randomUUID()));
+        System.out.println("\n" + orders.getOrders().get(0).getShoppingCart().containsID(UUID.randomUUID()));
     }
 }
