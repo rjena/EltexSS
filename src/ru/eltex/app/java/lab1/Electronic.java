@@ -1,6 +1,6 @@
-package ru.eltex.app.java;
+package ru.eltex.app.java.lab1;
 
-import ru.eltex.app.java.Enums.*;
+import ru.eltex.app.java.lab1.Enums.*;
 
 import java.util.Random;
 import java.util.Scanner;

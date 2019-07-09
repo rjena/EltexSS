@@ -1,4 +1,4 @@
-package ru.eltex.app.java.Enums;
+package ru.eltex.app.java.lab1.Enums;
 
 public enum ScreenResolutionEnum {
     sr2048x2732,

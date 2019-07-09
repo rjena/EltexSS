@@ -1,4 +1,4 @@
-package ru.eltex.app.java;
+package ru.eltex.app.java.lab1;
 
 import java.util.Scanner;
 
@@ -15,31 +15,29 @@ public class Main {
         switch (type) {
             case 1:
                 electronics = new Phone[N];
-                for (int i = 0; i < N; i++) {
-                    electronics[i] = new Phone();
-                    System.out.printf("================Creating No%s================\n", i + 1);
-                    electronics[i].create();
-                    electronics[i].update();
-                }
                 break;
             case 2:
                 electronics = new Smartphone[N];
-                for (int i = 0; i < N; i++) {
-                    electronics[i] = new Smartphone();
-                    System.out.printf("================Creating No%s================\n", i + 1);
-                    electronics[i].create();
-                    electronics[i].update();
-                }
                 break;
             default:
                 electronics = new Tablet[N];
-                for (int i = 0; i < N; i++) {
-                    electronics[i] = new Tablet();
-                    System.out.printf("================Creating No%s================\n", i + 1);
-                    electronics[i].create();
-                    electronics[i].update();
-                }
                 break;
+        }
+        for (int i = 0; i < N; i++) {
+            switch (type) {
+                case 1:
+                    electronics[i] = new Phone();
+                    break;
+                case 2:
+                    electronics[i] = new Smartphone();
+                    break;
+                default:
+                    electronics[i] = new Tablet();
+                    break;
+            }
+            System.out.printf("================Creating No%s================\n", i + 1);
+            electronics[i].create();
+            electronics[i].update();
         }
 
         for (Electronic el : electronics)

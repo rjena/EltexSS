@@ -1,4 +1,4 @@
-package ru.eltex.app.java;
+package ru.eltex.app.java.lab1;
 
 public class Test {
     public static final String PHONE = "Phone";

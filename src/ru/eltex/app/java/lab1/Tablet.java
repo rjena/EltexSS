@@ -1,7 +1,7 @@
-package ru.eltex.app.java;
+package ru.eltex.app.java.lab1;
 
-import ru.eltex.app.java.Enums.ScreenResolutionEnum;
-import ru.eltex.app.java.Enums.VideoProcessorEnum;
+import ru.eltex.app.java.lab1.Enums.ScreenResolutionEnum;
+import ru.eltex.app.java.lab1.Enums.VideoProcessorEnum;
 
 import java.util.Random;
 
