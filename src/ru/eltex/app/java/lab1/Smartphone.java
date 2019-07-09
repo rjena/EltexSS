@@ -3,10 +3,10 @@ package ru.eltex.app.java.lab1;
 import java.util.Random;
 
 public class Smartphone extends Electronic {
-    String simType;
-    int simCount;
+    private String simType;
+    private int simCount;
 
-    Smartphone() {
+    public Smartphone() {
         System.out.println("New Smartphone");
     }
 
@@ -31,7 +31,7 @@ public class Smartphone extends Electronic {
         super.create();
         if (new Random().nextInt(2) == 0) simType = "Micro";
         else simType = "Usual";
-        simCount= new Random().nextInt(5) + 1;
+        simCount = new Random().nextInt(5) + 1;
     }
 
     @Override

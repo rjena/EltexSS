@@ -6,10 +6,10 @@ import ru.eltex.app.java.lab1.Enums.VideoProcessorEnum;
 import java.util.Random;
 
 public class Tablet extends Electronic {
-    String videoProcessor;
-    String screenResolution;
+    private String videoProcessor;
+    private String screenResolution;
 
-    Tablet() {
+    public Tablet() {
         System.out.println("New Tablet");
     }
 

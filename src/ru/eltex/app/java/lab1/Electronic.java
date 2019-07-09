@@ -15,7 +15,8 @@ public abstract class Electronic implements ICrudAction {
     private String model;
     private String os;
 
-    Electronic() {}
+    Electronic() {
+    }
 
     public int getCount() {
         return count;

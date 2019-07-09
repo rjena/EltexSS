@@ -5,7 +5,7 @@ import java.util.Random;
 public class Phone extends Electronic {
     private String caseType;
 
-    Phone() {
+    public Phone() {
         System.out.println("New Phone");
     }
 
