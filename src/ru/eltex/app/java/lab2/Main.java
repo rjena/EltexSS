@@ -47,6 +47,9 @@ public class Main {
             System.out.printf("Shopping cart for User %s ordered\n", i + 1);
         }
 
-        System.out.println("\n" + orders.getOrders().get(0).getShoppingCart().containsID(UUID.randomUUID()));
+        System.out.println("\nTrying to find new random UUID in cart: " + orders.getOrders().get(0).getShoppingCart()
+                .containsID(UUID.randomUUID()));
+        System.out.println("Trying to find not random UUID in cart: " + orders.getOrders().get(0).getShoppingCart()
+                .containsID(orders.getOrders().get(0).getShoppingCart().getShoppingCart().getFirst().getID()));
     }
 }

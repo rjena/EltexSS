@@ -7,7 +7,7 @@ import java.util.*;
 public class ShoppingCart {
     // класс-коллекция для сгенерированных объектов.
     private LinkedList<Electronic> shoppingCart;
-    private static HashSet<UUID> ids;
+    private HashSet<UUID> ids;
 
     public ShoppingCart() {
         shoppingCart = new LinkedList<>();
