@@ -39,7 +39,7 @@ public class Main {
             cred.show();
             for (int j = 0; j < new Random().nextInt(4) + 3; j++)
                 shoppingCart.add(electronics[new Random().nextInt(electronics.length)]);
-            shoppingCart.delete(shoppingCart.getShoppingCart().get(new Random().nextInt(shoppingCart.getShoppingCart().size())));
+            shoppingCart.delete(shoppingCart.getCartItems().get(new Random().nextInt(shoppingCart.getCartItems().size())));
             shoppingCart.add(electronics[new Random().nextInt(electronics.length)]);
             shoppingCart.show();
             orders.offer(shoppingCart, cred);
@@ -49,6 +49,6 @@ public class Main {
         System.out.println("\nTrying to find new random UUID in cart: " + orders.getOrders().get(0).getShoppingCart()
                 .containsID(UUID.randomUUID()));
         System.out.println("Trying to find not random UUID in cart: " + orders.getOrders().get(0).getShoppingCart()
-                .containsID(orders.getOrders().get(0).getShoppingCart().getShoppingCart().getFirst().getID()));
+                .containsID(orders.getOrders().get(0).getShoppingCart().getCartItems().getFirst().getID()));
     }
 }

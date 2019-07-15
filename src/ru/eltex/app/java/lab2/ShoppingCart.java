@@ -33,7 +33,7 @@ public class ShoppingCart {
         ids.remove(e.getID());
     }
 
-    public LinkedList<Electronic> getShoppingCart() {
+    public LinkedList<Electronic> getCartItems() {
         return shoppingCart;
     }
 
