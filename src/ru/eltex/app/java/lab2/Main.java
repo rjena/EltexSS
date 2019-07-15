@@ -32,10 +32,15 @@ public class Main {
             ShoppingCart shoppingCart = new ShoppingCart();
             Credentials cred = new Credentials("Surname" + (i + 1), "Name" + (i + 1),
                     "Patronym" + (i + 1), "Email" + (i + 1) + "@gmail.com");
+            System.out.println("\n===================================================");
+            System.out.println("---------------------------------------------------");
+            System.out.println("===================================================");
             System.out.printf("\nUser %s created\n", i + 1);
+            cred.show();
             for (int j = 0; j < new Random().nextInt(4) + 3; j++)
                 shoppingCart.add(electronics[new Random().nextInt(electronics.length)]);
             shoppingCart.delete(shoppingCart.getShoppingCart().get(new Random().nextInt(shoppingCart.getShoppingCart().size())));
+            shoppingCart.show();
             orders.offer(shoppingCart, cred);
             shoppingCart.add(electronics[new Random().nextInt(electronics.length)]);
             orders.offer(shoppingCart, cred);
