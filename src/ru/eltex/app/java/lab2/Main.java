@@ -40,9 +40,8 @@ public class Main {
             for (int j = 0; j < new Random().nextInt(4) + 3; j++)
                 shoppingCart.add(electronics[new Random().nextInt(electronics.length)]);
             shoppingCart.delete(shoppingCart.getShoppingCart().get(new Random().nextInt(shoppingCart.getShoppingCart().size())));
-            shoppingCart.show();
-            orders.offer(shoppingCart, cred);
             shoppingCart.add(electronics[new Random().nextInt(electronics.length)]);
+            shoppingCart.show();
             orders.offer(shoppingCart, cred);
             System.out.printf("Shopping cart for User %s ordered\n", i + 1);
         }
