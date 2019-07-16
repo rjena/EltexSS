@@ -57,7 +57,7 @@ public class Main {
         } catch (Exception e) {
             System.out.println("Hmmm... This part should work correctly...");
         }
-        System.out.println("======================================================================================");
+        System.out.println("\n\n\n======================================================================================");
         System.out.println("======================================================================================");
         System.out.println("======================================================================================");
         System.out.println("======================================================================================");
@@ -68,14 +68,11 @@ public class Main {
             for (int i = 0; i < new Random().nextInt(4) + 3; i++) {
                 Credentials cred = new Credentials("Surname" + (i + 1), "Name" + (i + 1),
                         "Patronym" + (i + 1), "Email" + (i + 1) + "@gmail.com");
-                System.out.println("\n===================================================");
-                System.out.println("---------------------------------------------------");
-                System.out.println("===================================================");
                 System.out.printf("\nUser %s created\n", i + 1);
                 //cred.show();
                 //ShoppingCart<Credentials> shoppingCart = new ShoppingCart<>();
-                System.out.println("при попытке ShoppingCart<Credentials> shoppingCart = new ShoppingCart<>();\n" +
-                        "сразу ругается, говорит, что должен расширять Electronic");
+                System.out.println("\nwhen trying ShoppingCart<Credentials> shoppingCart = new ShoppingCart<>();\n" +
+                        "error appeared, it is said that it should extend Electronic");
                 ShoppingCart<Electronic> shoppingCart = new ShoppingCart<>();
                 for (int j = 0; j < new Random().nextInt(4) + 3; j++)
                     shoppingCart.add(electronics[new Random().nextInt(electronics.length)]);
@@ -83,7 +80,8 @@ public class Main {
                 shoppingCart.add(electronics[new Random().nextInt(electronics.length)]);
                 //shoppingCart.show();
                 orders.add(shoppingCart);
-                System.out.printf("Shopping cart for User %s added\n", i + 1);
+                System.out.printf("\nShopping cart for User %s added\n", i + 1);
+                System.out.println("\nHmmm... This part shouldn't work correctly");
             }
             orders.delete(orders.getOrders().get(0));
 
@@ -92,7 +90,8 @@ public class Main {
             System.out.println("Trying to find not random UUID in cart: " + orders.getOrders().get(0).getShoppingCart()
                     .containsID(((Electronic) orders.getOrders().get(0).getShoppingCart().getCartItems().getFirst()).getID()));*/
         } catch (Exception e) {
-            System.out.println("Правильная ошибка. Это так планировалось");
+            System.out.println("\nCorrect error. It was planned");
+            System.out.println(e.getMessage());
         }
     }
 }
