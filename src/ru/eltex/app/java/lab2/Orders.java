@@ -1,20 +1,17 @@
 package ru.eltex.app.java.lab2;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
 
 public class Orders {
     // класс-коллекция для объединения списка заказов
 
     private ArrayList<Order> orders;
-    private HashMap<Date, Order> ordersByCreationTime;
+    private TreeMap<Date, Order> ordersByCreationTime;
 
     public Orders() {
         orders = new ArrayList<>();
-        ordersByCreationTime = new HashMap<>();
+        ordersByCreationTime = new TreeMap<>();
     }
 
     public Orders(ArrayList<Order> orders) {
@@ -25,7 +22,7 @@ public class Orders {
         return orders;
     }
 
-    public HashMap<Date, Order> getOrdersByCreationTime() {
+    public TreeMap<Date, Order> getOrdersByCreationTime() {
         return ordersByCreationTime;
     }
 
