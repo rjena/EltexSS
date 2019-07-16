@@ -57,13 +57,15 @@ public class Main {
         } catch (Exception e) {
             System.out.println("Hmmm... This part should work correctly...");
         }
-        System.out.println("\n\n\n======================================================================================");
-        System.out.println("======================================================================================");
-        System.out.println("======================================================================================");
-        System.out.println("======================================================================================");
-        System.out.println("======================================================================================");
+
+        System.out.println("\n\n\n");
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 100; j++) System.out.print("=");
+            System.out.println();
+        }
+        System.out.println("\n\n");
+
         try {
-            System.out.println("\n\n");
             Orders<ShoppingCart> orders = new Orders<>();
             for (int i = 0; i < new Random().nextInt(4) + 3; i++) {
                 Credentials cred = new Credentials("Surname" + (i + 1), "Name" + (i + 1),

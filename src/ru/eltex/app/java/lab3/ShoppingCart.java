@@ -36,7 +36,7 @@ public class ShoppingCart<T extends Electronic> {
 
     /**
      * удаление объекта из «корзины»
-      */
+     */
     public void delete(T e) {
         shoppingCart.remove(e);
         ids.remove(e.getID());
@@ -52,7 +52,7 @@ public class ShoppingCart<T extends Electronic> {
 
     /**
      * поиск объекта в коллекции «корзина» по идентификатору.
-      */
+     */
     public T findByID(UUID id) {
         if (containsID(id))
             for (T e : shoppingCart)
@@ -63,7 +63,7 @@ public class ShoppingCart<T extends Electronic> {
 
     /**
      * «показать все объекты».
-      */
+     */
     public void show() {
         for (int i = 0; i < shoppingCart.size(); i++) {
             System.out.println("==========================================\n\t\tCartItem №" + (i + 1));
