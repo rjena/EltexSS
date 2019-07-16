@@ -44,7 +44,8 @@ public class Main {
                 shoppingCart.delete(shoppingCart.getCartItems().get(new Random().nextInt(shoppingCart.getCartItems().size())));
                 shoppingCart.add(electronics[new Random().nextInt(electronics.length)]);
                 shoppingCart.show();
-                orders.add(new Order(cred, shoppingCart));
+                //orders.add(new Order(cred, shoppingCart));
+                orders.offer(shoppingCart, cred);
                 System.out.printf("Shopping cart for User %s added\n", i + 1);
             }
             orders.delete(orders.getOrders().get(0));
@@ -68,22 +69,23 @@ public class Main {
         try {
             Orders<ShoppingCart> orders = new Orders<>();
             for (int i = 0; i < new Random().nextInt(4) + 3; i++) {
+                //ShoppingCart<Credentials> shoppingCart = new ShoppingCart<>();
+                if (i == 0)
+                    System.out.println("\nwhen trying ShoppingCart<Credentials> shoppingCart = new ShoppingCart<>();\n" +
+                            "error appeared, it is said that it should extend Electronic");
                 Credentials cred = new Credentials("Surname" + (i + 1), "Name" + (i + 1),
                         "Patronym" + (i + 1), "Email" + (i + 1) + "@gmail.com");
                 System.out.printf("\nUser %s created\n", i + 1);
                 //cred.show();
-                //ShoppingCart<Credentials> shoppingCart = new ShoppingCart<>();
-                System.out.println("\nwhen trying ShoppingCart<Credentials> shoppingCart = new ShoppingCart<>();\n" +
-                        "error appeared, it is said that it should extend Electronic");
                 ShoppingCart<Electronic> shoppingCart = new ShoppingCart<>();
                 for (int j = 0; j < new Random().nextInt(4) + 3; j++)
                     shoppingCart.add(electronics[new Random().nextInt(electronics.length)]);
                 shoppingCart.delete(shoppingCart.getCartItems().get(new Random().nextInt(shoppingCart.getCartItems().size())));
                 shoppingCart.add(electronics[new Random().nextInt(electronics.length)]);
                 //shoppingCart.show();
-                orders.add(shoppingCart);
+                orders.offer(shoppingCart, cred);
                 System.out.printf("\nShopping cart for User %s added\n", i + 1);
-                System.out.println("\nHmmm... This part shouldn't work correctly");
+                //System.out.println("\nHmmm... This part shouldn't work correctly");
             }
             orders.delete(orders.getOrders().get(0));
 
