@@ -21,8 +21,12 @@ public class ACheckProcessed extends ACheck {
             ArrayList<Order> ords = new ArrayList<>(orders.getOrders());
             for (Order o : ords)
                 if (o.getStatus().equals(OrderStatusEnum.Processed.name()))
-                    orders.delete(o);
-            System.out.println("Processed orders checked: " + ords.size() + " -> " + orders.getOrders().size());
+                    synchronized (orders) {
+                        orders.delete(o);
+                    }
+            synchronized (orders) {
+                System.out.println("Processed orders checked: " + ords.size() + " -> " + orders.getOrders().size());
+            }
             try {
                 Thread.sleep(SLEEPTIME + SLEEPTIME / 2);
             } catch (InterruptedException e) {

@@ -47,8 +47,10 @@ public class OrdersGenerator implements Runnable {
             for (int j = 0; j < new Random().nextInt(3) + 1; j++)
                 shoppingCart.add(electronics[new Random().nextInt(electronics.length)]);
             /** совершение покупки */
-            orders.offer(shoppingCart, cred);
-            System.out.println("New order generated " + sleepTime + " (count = " + orders.getOrders().size() + ")");
+            synchronized (orders) {
+                orders.offer(shoppingCart, cred);
+                System.out.println("New order generated " + sleepTime + " (count = " + orders.getOrders().size() + ")");
+            }
             try {
                 Thread.sleep(sleepTime);
             } catch (InterruptedException e) {
