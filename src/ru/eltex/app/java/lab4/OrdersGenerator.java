@@ -38,19 +38,17 @@ public class OrdersGenerator implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
-            if (!fStop) {
-                /** создание пользователя */
-                Credentials cred = new Credentials("Surname" + credN++, "Name" + credN++,
-                        "Patronym" + credN++, "Email" + credN++ + "@gmail.com");
-                /** создание корзины */
-                ShoppingCart<Electronic> shoppingCart = new ShoppingCart<>();
-                for (int j = 0; j < new Random().nextInt(3) + 1; j++)
-                    shoppingCart.add(electronics[new Random().nextInt(electronics.length)]);
-                /** совершение покупки */
-                orders.offer(shoppingCart, cred);
-                System.out.println("New order generated " + sleepTime + " (count = " + orders.getOrders().size() + ")");
-            } else return;
+        while (!fStop) {
+            /** создание пользователя */
+            Credentials cred = new Credentials("Surname" + credN++, "Name" + credN++,
+                    "Patronym" + credN++, "Email" + credN++ + "@gmail.com");
+            /** создание корзины */
+            ShoppingCart<Electronic> shoppingCart = new ShoppingCart<>();
+            for (int j = 0; j < new Random().nextInt(3) + 1; j++)
+                shoppingCart.add(electronics[new Random().nextInt(electronics.length)]);
+            /** совершение покупки */
+            orders.offer(shoppingCart, cred);
+            System.out.println("New order generated " + sleepTime + " (count = " + orders.getOrders().size() + ")");
             try {
                 Thread.sleep(sleepTime);
             } catch (InterruptedException e) {

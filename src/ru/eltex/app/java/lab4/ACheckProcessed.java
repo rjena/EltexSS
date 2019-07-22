@@ -17,14 +17,12 @@ public class ACheckProcessed extends ACheck {
      */
     @Override
     public void run() {
-        while (true) {
-            if (!fStop) {
-                ArrayList<Order> ords = new ArrayList<>(orders.getOrders());
-                for (Order o : ords)
-                    if (o.getStatus().equals(OrderStatusEnum.Processed.name()))
-                        orders.delete(o);
-                System.out.println("Processed orders checked: " + ords.size() + " -> " + orders.getOrders().size());
-            } else return;
+        while (!fStop) {
+            ArrayList<Order> ords = new ArrayList<>(orders.getOrders());
+            for (Order o : ords)
+                if (o.getStatus().equals(OrderStatusEnum.Processed.name()))
+                    orders.delete(o);
+            System.out.println("Processed orders checked: " + ords.size() + " -> " + orders.getOrders().size());
             try {
                 Thread.sleep(SLEEPTIME + SLEEPTIME / 2);
             } catch (InterruptedException e) {

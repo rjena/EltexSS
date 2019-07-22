@@ -15,13 +15,11 @@ public class ACheckPending extends ACheck {
      */
     @Override
     public void run() {
-        while (true) {
-            if (!fStop) {
-                for (Order o : orders.getOrders())
-                    if (o.getStatus().equals(OrderStatusEnum.Pending.name()))
-                        o.setStatus(OrderStatusEnum.Processed.name());
-                System.out.println("Pending orders checked: " + orders.getOrders().size());
-            } else return;
+        while (!fStop) {
+            for (Order o : orders.getOrders())
+                if (o.getStatus().equals(OrderStatusEnum.Pending.name()))
+                    o.setStatus(OrderStatusEnum.Processed.name());
+            System.out.println("Pending orders checked: " + orders.getOrders().size());
             try {
                 Thread.sleep(SLEEPTIME);
             } catch (InterruptedException e) {
