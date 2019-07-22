@@ -6,9 +6,9 @@ import ru.eltex.app.java.lab3.Orders;
 
 import java.util.ArrayList;
 
-public class ACheckProcessed extends ACheck {
+public class CheckProcessed extends ACheck {
 
-    public ACheckProcessed(Orders<Order> orders) {
+    public CheckProcessed(Orders<Order> orders) {
         super(orders, OrderStatusEnum.Processed.name());
     }
 

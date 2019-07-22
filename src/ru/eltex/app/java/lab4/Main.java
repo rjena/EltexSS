@@ -4,8 +4,8 @@ public class Main {
     public static void main(String[] args) {
         OrdersGenerator orderGen1 = new OrdersGenerator(1400);
         OrdersGenerator orderGen2 = new OrdersGenerator(3200);
-        ACheckPending pendChecker = new ACheckPending(orderGen1.getOrders());
-        ACheckProcessed procChecker = new ACheckProcessed(orderGen1.getOrders());
+        CheckPending pendChecker = new CheckPending(orderGen1.getOrders());
+        CheckProcessed procChecker = new CheckProcessed(orderGen1.getOrders());
 
         try {
             Thread.sleep(30000);

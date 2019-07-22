@@ -4,9 +4,9 @@ import ru.eltex.app.java.lab2.OrderStatusEnum;
 import ru.eltex.app.java.lab3.Order;
 import ru.eltex.app.java.lab3.Orders;
 
-public class ACheckPending extends ACheck {
+public class CheckPending extends ACheck {
 
-    public ACheckPending(Orders<Order> orders) {
+    public CheckPending(Orders<Order> orders) {
         super(orders, OrderStatusEnum.Pending.name());
     }
 
