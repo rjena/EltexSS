@@ -2,7 +2,9 @@ package ru.eltex.app.java.lab2;
 
 import ru.eltex.app.java.lab1.Electronic;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.UUID;
 
 public class ShoppingCart {
     // класс-коллекция для сгенерированных объектов.

@@ -13,11 +13,11 @@ import java.util.Random;
 
 public class OrdersGenerator implements Runnable {
     private static Orders<Order> orders = new Orders<>();
-    private Thread thread;
-    private int sleepTime;
     private static boolean fStop;
     private static Electronic[] electronics;
     private static int credN = 1;
+    private Thread thread;
+    private int sleepTime;
 
     OrdersGenerator(int sleep) {
         int N = 20;

@@ -41,12 +41,12 @@ public class Orders<O> {
         return orders;
     }
 
-    public HashMap<Date, O> getOrdersByCreationTime() {
-        return ordersByCreationTime;
-    }
-
     public void setOrders(ArrayList<O> orders) {
         this.orders = orders;
+    }
+
+    public HashMap<Date, O> getOrdersByCreationTime() {
+        return ordersByCreationTime;
     }
 
     public void offer(ShoppingCart<Electronic> cart, Credentials creds) {

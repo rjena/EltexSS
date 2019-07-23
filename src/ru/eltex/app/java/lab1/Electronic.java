@@ -18,6 +18,45 @@ public abstract class Electronic implements ICrudAction {
     Electronic() {
     }
 
+    static protected double doubleOrIntegerInputWithMessage(String msg, boolean integer) {
+        double d = 2;
+        if (integer)
+            System.out.printf(msg + "[default: %s]: ", (int) d);
+        else
+            System.out.printf(msg + "[default: %s]: ", d);
+        String line = new Scanner(System.in).nextLine();
+        return line.matches("\\d+[.\\d]?") ? Double.valueOf(line) : d;
+    }
+
+    static protected String stringInputWithMessage(String msg) {
+        String s = "";
+        switch (msg.substring(6)) {
+            case "name":
+                s = NameEnum.values()[new Random().nextInt(NameEnum.values().length)].toString();
+                break;
+            case "firm":
+                s = FirmEnum.values()[new Random().nextInt(FirmEnum.values().length)].toString();
+                break;
+            case "model":
+                s = ModelEnum.values()[new Random().nextInt(ModelEnum.values().length)].toString();
+                break;
+            case "OS":
+                s = OSEnum.values()[new Random().nextInt(OSEnum.values().length)].toString();
+                break;
+            case "video processor":
+                s = VideoProcessorEnum.values()
+                        [new Random().nextInt(VideoProcessorEnum.values().length)].toString();
+                break;
+            case "screen resolution":
+                s = ScreenResolutionEnum.values()
+                        [new Random().nextInt(ScreenResolutionEnum.values().length)].toString();
+                break;
+        }
+        System.out.printf(msg + " [default: %s]: ", s);
+        String line = new Scanner(System.in).nextLine();
+        return line.equals("") ? s : line;
+    }
+
     public int getCount() {
         return count;
     }
@@ -30,36 +69,36 @@ public abstract class Electronic implements ICrudAction {
         return name;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public String getFirm() {
-        return firm;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public String getOS() {
-        return os;
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public double getPrice() {
+        return price;
     }
 
     public void setPrice(double price) {
         this.price = price;
     }
 
+    public String getFirm() {
+        return firm;
+    }
+
     public void setFirm(String firm) {
         this.firm = firm;
     }
 
+    public String getModel() {
+        return model;
+    }
+
     public void setModel(String model) {
         this.model = model;
+    }
+
+    public String getOS() {
+        return os;
     }
 
     public void setOS(String os) {
@@ -106,44 +145,5 @@ public abstract class Electronic implements ICrudAction {
         model = null;
         os = null;
         count--;
-    }
-
-    static protected double doubleOrIntegerInputWithMessage(String msg, boolean integer) {
-        double d = 2;
-        if (integer)
-            System.out.printf(msg + "[default: %s]: ", (int) d);
-        else
-            System.out.printf(msg + "[default: %s]: ", d);
-        String line = new Scanner(System.in).nextLine();
-        return line.matches("\\d+[.\\d]?") ? Double.valueOf(line) : d;
-    }
-
-    static protected String stringInputWithMessage(String msg) {
-        String s = "";
-        switch (msg.substring(6)) {
-            case "name":
-                s = NameEnum.values()[new Random().nextInt(NameEnum.values().length)].toString();
-                break;
-            case "firm":
-                s = FirmEnum.values()[new Random().nextInt(FirmEnum.values().length)].toString();
-                break;
-            case "model":
-                s = ModelEnum.values()[new Random().nextInt(ModelEnum.values().length)].toString();
-                break;
-            case "OS":
-                s = OSEnum.values()[new Random().nextInt(OSEnum.values().length)].toString();
-                break;
-            case "video processor":
-                s = VideoProcessorEnum.values()
-                        [new Random().nextInt(VideoProcessorEnum.values().length)].toString();
-                break;
-            case "screen resolution":
-                s = ScreenResolutionEnum.values()
-                        [new Random().nextInt(ScreenResolutionEnum.values().length)].toString();
-                break;
-        }
-        System.out.printf(msg + " [default: %s]: ", s);
-        String line = new Scanner(System.in).nextLine();
-        return line.equals("") ? s : line;
     }
 }

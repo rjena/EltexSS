@@ -4,9 +4,9 @@ import ru.eltex.app.java.lab3.Order;
 import ru.eltex.app.java.lab3.Orders;
 
 public abstract class ACheck implements Runnable {
+    final int SLEEPTIME = 5000;
     Orders<Order> orders;
     Thread thread;
-    final int SLEEPTIME = 5000;
     boolean fStop;
 
     ACheck(Orders<Order> orders, String status) {
