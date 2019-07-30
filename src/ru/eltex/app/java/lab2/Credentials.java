@@ -1,8 +1,9 @@
 package ru.eltex.app.java.lab2;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class Credentials {
+public class Credentials implements Serializable {
     // класс для хранения и обработки персональных данных пользователей
     private UUID id;
     private String surname;

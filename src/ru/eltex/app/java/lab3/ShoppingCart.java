@@ -2,6 +2,7 @@ package ru.eltex.app.java.lab3;
 
 import ru.eltex.app.java.lab1.Electronic;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.UUID;
@@ -9,8 +10,7 @@ import java.util.UUID;
 /**
  * класс-коллекция для сгенерированных объектов
  */
-public class ShoppingCart<T extends Electronic> {
-
+public class ShoppingCart<T extends Electronic> implements Serializable {
     private LinkedList<T> shoppingCart;
     private HashSet<UUID> ids;
 

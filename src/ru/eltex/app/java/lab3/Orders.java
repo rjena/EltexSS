@@ -4,6 +4,7 @@ import ru.eltex.app.java.lab1.Electronic;
 import ru.eltex.app.java.lab2.Credentials;
 import ru.eltex.app.java.lab2.OrderStatusEnum;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,8 +14,7 @@ import java.util.HashMap;
 /**
  * класс-коллекция для объединения списка заказов
  */
-public class Orders<O> {
-
+public class Orders<O> implements Serializable {
     private ArrayList<O> orders;
     private HashMap<Date, O> ordersByCreationTime;
 

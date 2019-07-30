@@ -2,11 +2,12 @@ package ru.eltex.app.java.lab1;
 
 import ru.eltex.app.java.lab1.Enums.*;
 
+import java.io.Serializable;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.UUID;
 
-public abstract class Electronic implements ICrudAction {
+public abstract class Electronic implements ICrudAction, Serializable {
     static int count = 0;
     private UUID id;
     private String name;

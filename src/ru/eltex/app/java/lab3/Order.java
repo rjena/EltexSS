@@ -4,13 +4,13 @@ import ru.eltex.app.java.lab1.Electronic;
 import ru.eltex.app.java.lab2.Credentials;
 import ru.eltex.app.java.lab2.OrderStatusEnum;
 
-import java.text.SimpleDateFormat;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Random;
+import java.util.UUID;
 
-public class Order {
-    final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-
+public class Order implements Serializable {
+    private UUID id;
     private String status;
     private Date creationTime; // устанавливается в момент оформления покупки
     private int waitingTime; // через cколько секунд заказ должен исчезнуть (должен быть обработан)
@@ -18,11 +18,16 @@ public class Order {
     private ShoppingCart<Electronic> shoppingCart;
 
     public Order(Credentials credentials, ShoppingCart<Electronic> shoppingCart) {
+        id = UUID.randomUUID();
         status = OrderStatusEnum.Pending.name();
         creationTime = new Date();
-        waitingTime = new Random().nextInt(240) + 60; // from 1 to 5 min
+        waitingTime = new Random().nextInt(50) + 10; // from 10 to 60 sec
         this.credentials = credentials;
         this.shoppingCart = shoppingCart;
+    }
+
+    public UUID getId() {
+        return id;
     }
 
     public String getStatus() {
