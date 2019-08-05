@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.UUID;
 
 public class ManagerOrderJSON extends AManageOrder {
@@ -76,12 +77,51 @@ public class ManagerOrderJSON extends AManageOrder {
 
     @Override
     public Orders<Order> readAll() {
+        if (file.exists() && file.length() != 0) {
+            Orders<Order> orders = null;
+            JsonReader jr = null;
+            try {
+                orders = new Orders<>();
+                Gson gson = new GsonBuilder().create();
+                jr = new JsonReader(new FileReader(file));
+                jr.setLenient(true);
+                while (jr.peek() != JsonToken.END_DOCUMENT) orders.add(gson.fromJson(jr, Order.class));
+            } catch (IOException e) { e.printStackTrace();
+            } finally { if (jr != null) try { jr.close(); } catch (IOException e) { e.printStackTrace(); } }
+            return orders;
+        }
         return null;
     }
 
     @Override
     public void saveAll(Orders<Order> orders) {
-
+        try {
+            HashSet<UUID> ids = new HashSet<>();
+            for (Order o : orders.getOrders()) ids.add(o.getId());
+            ArrayList<Order> fileOrders = new ArrayList<>();
+            if (file.exists()) {
+                if (file.length() != 0) {
+                    JsonReader jr = null;
+                    try {
+                        Gson gson = new GsonBuilder().create();
+                        jr = new JsonReader(new FileReader(file));
+                        jr.setLenient(true);
+                        Order o;
+                        while (jr.peek() != JsonToken.END_DOCUMENT) {
+                            o = gson.fromJson(jr, Order.class);
+                            if (!ids.contains(o.getId())) fileOrders.add(o);
+                        }
+                    } finally { if (jr != null) try { jr.close(); } catch (IOException e) { e.printStackTrace(); } }
+                }
+            } else file.createNewFile();
+            FileWriter fw = null;
+            fileOrders.addAll(orders.getOrders());
+            try {
+                fw = new FileWriter(file);
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                for (Order o : fileOrders) fw.write(gson.toJson(o) + "\n");
+            } finally { if (fw != null) try { fw.close(); } catch (IOException e) { e.getMessage(); } }
+        } catch (IOException e) { e.getMessage(); }
     }
 
 }

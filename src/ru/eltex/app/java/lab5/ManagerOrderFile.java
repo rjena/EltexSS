@@ -6,7 +6,6 @@ import ru.eltex.app.java.lab3.Orders;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 public class ManagerOrderFile extends AManageOrder {
@@ -60,9 +59,10 @@ public class ManagerOrderFile extends AManageOrder {
     @Override
     public Orders<Order> readAll() {
         if (file.exists()) {
-            Orders<Order> orders = new Orders<>();
+            Orders<Order> orders = null;
             try (FileInputStream fis = new FileInputStream(file)) {
                 if (fis.available() > 0) {
+                    orders = new Orders<>();
                     ObjectInputStream ois = new ObjectInputStream(fis);
                     while (fis.available() > 0) orders.add((Order) ois.readObject());
                 }
@@ -75,18 +75,18 @@ public class ManagerOrderFile extends AManageOrder {
     @Override
     public void saveAll(Orders<Order> orders) {
         try {
-            Set<UUID> ids = new HashSet<>();
+            HashSet<UUID> ids = new HashSet<>();
             for (Order o : orders.getOrders()) ids.add(o.getId());
             ArrayList<Order> fileOrders = new ArrayList<>();
             if (file.exists()) {
                 FileInputStream fis = new FileInputStream(file);
                 if (fis.available() > 0) {
                     ObjectInputStream ois = new ObjectInputStream(fis);
+                    Order o;
                     while (fis.available() > 0) {
-                        Order o = (Order) ois.readObject();
-                        if (!ids.contains(o.getId())) orders.add(o);
+                        o = (Order) ois.readObject();
+                        if (!ids.contains(o.getId())) fileOrders.add(o);
                     }
-                    while (fis.available() > 0) fileOrders.add((Order) ois.readObject());
                 }
             } else file.createNewFile();
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
