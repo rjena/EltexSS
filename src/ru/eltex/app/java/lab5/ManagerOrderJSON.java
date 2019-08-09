@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.UUID;
 
 public class ManagerOrderJSON extends AManageOrder {
-    private String pathname = "/home/jen/EltexSS/src/ru/eltex/app/java/lab5/files/json.txt";
+    private String pathname = new File("").getAbsolutePath() + "/src/ru/eltex/app/java/lab5/files/json.txt";
     private File file;
 
     public ManagerOrderJSON() {
@@ -32,10 +32,11 @@ public class ManagerOrderJSON extends AManageOrder {
                 jr = new JsonReader(new FileReader(file));
                 jr.setLenient(true);
                 Order order;
-                while (jr.peek() != JsonToken.END_DOCUMENT) {
-                    order = gson.fromJson(jr, Order.class);
-                    if (order.getId().equals(id)) return order;
-                }
+                while (jr.peek() != JsonToken.END_DOCUMENT)
+                    try {
+                        order = gson.fromJson(jr, Order.class);
+                        if (order.getId().equals(id)) return order;
+                    } catch (ClassCastException e) { e.getMessage(); }
             } catch (IOException e) { e.printStackTrace();
             } finally { if (jr != null) try { jr.close(); } catch (IOException e) { e.printStackTrace(); } }
         }
@@ -58,10 +59,11 @@ public class ManagerOrderJSON extends AManageOrder {
                         jr = new JsonReader(new FileReader(file));
                         jr.setLenient(true);
                         Order o;
-                        while (jr.peek() != JsonToken.END_DOCUMENT) {
-                            o = gson.fromJson(jr, Order.class);
-                            if (!o.getId().equals(order.getId())) orders.add(o);
-                        }
+                        while (jr.peek() != JsonToken.END_DOCUMENT)
+                            try {
+                                o = gson.fromJson(jr, Order.class);
+                                if (!o.getId().equals(order.getId())) orders.add(o);
+                            } catch (ClassCastException e) { e.getMessage(); }
                     } finally { if (jr != null) try { jr.close(); } catch (IOException e) { e.printStackTrace(); } }
                 }
             } else file.createNewFile();
@@ -85,7 +87,10 @@ public class ManagerOrderJSON extends AManageOrder {
                 Gson gson = new GsonBuilder().create();
                 jr = new JsonReader(new FileReader(file));
                 jr.setLenient(true);
-                while (jr.peek() != JsonToken.END_DOCUMENT) orders.add(gson.fromJson(jr, Order.class));
+                while (jr.peek() != JsonToken.END_DOCUMENT)
+                    try {
+                        orders.add(gson.fromJson(jr, Order.class));
+                    } catch (ClassCastException e) { e.getMessage(); }
             } catch (IOException e) { e.printStackTrace();
             } finally { if (jr != null) try { jr.close(); } catch (IOException e) { e.printStackTrace(); } }
             return orders;
@@ -107,10 +112,11 @@ public class ManagerOrderJSON extends AManageOrder {
                         jr = new JsonReader(new FileReader(file));
                         jr.setLenient(true);
                         Order o;
-                        while (jr.peek() != JsonToken.END_DOCUMENT) {
-                            o = gson.fromJson(jr, Order.class);
-                            if (!ids.contains(o.getId())) fileOrders.add(o);
-                        }
+                        while (jr.peek() != JsonToken.END_DOCUMENT)
+                            try {
+                                o = gson.fromJson(jr, Order.class);
+                                if (!ids.contains(o.getId())) fileOrders.add(o);
+                            } catch (ClassCastException e) { e.getMessage(); }
                     } finally { if (jr != null) try { jr.close(); } catch (IOException e) { e.printStackTrace(); } }
                 }
             } else file.createNewFile();
@@ -123,5 +129,4 @@ public class ManagerOrderJSON extends AManageOrder {
             } finally { if (fw != null) try { fw.close(); } catch (IOException e) { e.getMessage(); } }
         } catch (IOException e) { e.getMessage(); }
     }
-
 }
