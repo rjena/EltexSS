@@ -7,7 +7,7 @@ public class Smartphone extends Electronic {
     private int simCount;
 
     public Smartphone() {
-        System.out.println("New Smartphone");
+        //System.out.println("New Smartphone");
     }
 
     public String getSimType() {

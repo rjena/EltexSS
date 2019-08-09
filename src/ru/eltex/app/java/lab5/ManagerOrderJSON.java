@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
+import ru.eltex.app.java.lab1.Electronic;
 import ru.eltex.app.java.lab3.Order;
 import ru.eltex.app.java.lab3.Orders;
 
@@ -27,7 +28,8 @@ public class ManagerOrderJSON extends AManageOrder {
     public Order readById(UUID id) {
         if (file.exists() && file.length() != 0) {
             try (JsonReader jr = new JsonReader(new FileReader(file))) {
-                Gson gson = new GsonBuilder().create();
+                Gson gson = new GsonBuilder()
+                        .registerTypeAdapter(Electronic.class, new ElectronicAdapter()).create();
                 Order order;
                 while (jr.peek() != JsonToken.END_DOCUMENT)
                     try {
@@ -49,7 +51,8 @@ public class ManagerOrderJSON extends AManageOrder {
         if (file.exists()) {
             if (file.length() != 0)
                 try (JsonReader jr = new JsonReader(new FileReader(file))) {
-                    Gson gson = new GsonBuilder().create();
+                    Gson gson = new GsonBuilder()
+                            .registerTypeAdapter(Electronic.class, new ElectronicAdapter()).create();
                     jr.setLenient(true);
                     Order o;
                     while (jr.peek() != JsonToken.END_DOCUMENT)
@@ -60,7 +63,8 @@ public class ManagerOrderJSON extends AManageOrder {
                 } catch (IOException e) { e.getMessage(); }
         } else try { file.createNewFile(); } catch (IOException e) { e.getMessage(); }
         try (FileWriter fw = new FileWriter(file)) {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(Electronic.class, new ElectronicAdapter()).setPrettyPrinting().create();
             for (Order o : orders) fw.write(gson.toJson(o) + "\n");
             fw.write(gson.toJson(order) + "\n");
         } catch (IOException e) { e.getMessage(); }
@@ -72,7 +76,8 @@ public class ManagerOrderJSON extends AManageOrder {
             Orders<Order> orders = null;
             try (JsonReader jr = new JsonReader(new FileReader(file))) {
                 orders = new Orders<>();
-                Gson gson = new GsonBuilder().create();
+                Gson gson = new GsonBuilder()
+                        .registerTypeAdapter(Electronic.class, new ElectronicAdapter()).create();
                 jr.setLenient(true);
                 while (jr.peek() != JsonToken.END_DOCUMENT)
                     try {
@@ -92,7 +97,8 @@ public class ManagerOrderJSON extends AManageOrder {
         if (file.exists()) {
             if (file.length() != 0)
                 try (JsonReader jr = new JsonReader(new FileReader(file))) {
-                    Gson gson = new GsonBuilder().create();
+                    Gson gson = new GsonBuilder()
+                            .registerTypeAdapter(Electronic.class, new ElectronicAdapter()).create();
                     jr.setLenient(true);
                     Order o;
                     while (jr.peek() != JsonToken.END_DOCUMENT)
@@ -104,7 +110,8 @@ public class ManagerOrderJSON extends AManageOrder {
         } else try { file.createNewFile(); } catch (IOException e) { e.printStackTrace(); }
         fileOrders.addAll(orders.getOrders());
         try (FileWriter fw = new FileWriter(file)) {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            Gson gson = new GsonBuilder().registerTypeAdapter(Electronic.class, new ElectronicAdapter())
+                    .setPrettyPrinting().create();
             for (Order o : fileOrders) fw.write(gson.toJson(o) + "\n");
         } catch (IOException e) { e.getMessage(); }
     }

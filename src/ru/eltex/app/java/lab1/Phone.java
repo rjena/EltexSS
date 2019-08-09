@@ -6,7 +6,7 @@ public class Phone extends Electronic {
     private String caseType;
 
     public Phone() {
-        System.out.println("New Phone");
+        //System.out.println("New Phone");
     }
 
     public String getCaseType() {

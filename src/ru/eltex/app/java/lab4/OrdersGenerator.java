@@ -19,7 +19,7 @@ public class OrdersGenerator implements Runnable {
     private Thread thread;
     private int sleepTime;
 
-    OrdersGenerator(int sleep) {
+    public OrdersGenerator(int sleep) {
         int N = 20;
         if (electronics == null) {
             electronics = new Electronic[3 * N];

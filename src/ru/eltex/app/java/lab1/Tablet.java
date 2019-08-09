@@ -10,7 +10,7 @@ public class Tablet extends Electronic {
     private String screenResolution;
 
     public Tablet() {
-        System.out.println("New Tablet");
+        //System.out.println("New Tablet");
     }
 
     public String getVideoProcessor() {
