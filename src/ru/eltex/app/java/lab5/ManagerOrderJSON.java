@@ -26,19 +26,15 @@ public class ManagerOrderJSON extends AManageOrder {
     @Override
     public Order readById(UUID id) {
         if (file.exists() && file.length() != 0) {
-            JsonReader jr = null;
-            try {
+            try (JsonReader jr = new JsonReader(new FileReader(file))) {
                 Gson gson = new GsonBuilder().create();
-                jr = new JsonReader(new FileReader(file));
-                jr.setLenient(true);
                 Order order;
                 while (jr.peek() != JsonToken.END_DOCUMENT)
                     try {
                         order = gson.fromJson(jr, Order.class);
                         if (order.getId().equals(id)) return order;
                     } catch (ClassCastException e) { e.getMessage(); }
-            } catch (IOException e) { e.printStackTrace();
-            } finally { if (jr != null) try { jr.close(); } catch (IOException e) { e.printStackTrace(); } }
+            } catch (IOException e) { e.getMessage(); }
         }
         return null;
     }
@@ -49,31 +45,24 @@ public class ManagerOrderJSON extends AManageOrder {
          * есть заказ с указанным id -> удалить и добавить заказ
          * нет заказа с указанным id -> добавить заказ
          */
-        try {
-            ArrayList<Order> orders = new ArrayList<>();
-            if (file.exists()) {
-                if (file.length() != 0) {
-                    JsonReader jr = null;
-                    try {
-                        Gson gson = new GsonBuilder().create();
-                        jr = new JsonReader(new FileReader(file));
-                        jr.setLenient(true);
-                        Order o;
-                        while (jr.peek() != JsonToken.END_DOCUMENT)
-                            try {
-                                o = gson.fromJson(jr, Order.class);
-                                if (!o.getId().equals(order.getId())) orders.add(o);
-                            } catch (ClassCastException e) { e.getMessage(); }
-                    } finally { if (jr != null) try { jr.close(); } catch (IOException e) { e.printStackTrace(); } }
-                }
-            } else file.createNewFile();
-            FileWriter fw = null;
-            try {
-                fw = new FileWriter(file);
-                Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                for (Order o : orders) fw.write(gson.toJson(o) + "\n");
-                fw.write(gson.toJson(order) + "\n");
-            } finally { if (fw != null) try { fw.close(); } catch (IOException e) { e.getMessage(); } }
+        ArrayList<Order> orders = new ArrayList<>();
+        if (file.exists()) {
+            if (file.length() != 0)
+                try (JsonReader jr = new JsonReader(new FileReader(file))) {
+                    Gson gson = new GsonBuilder().create();
+                    jr.setLenient(true);
+                    Order o;
+                    while (jr.peek() != JsonToken.END_DOCUMENT)
+                        try {
+                            o = gson.fromJson(jr, Order.class);
+                            if (!o.getId().equals(order.getId())) orders.add(o);
+                        } catch (ClassCastException e) { e.getMessage(); }
+                } catch (IOException e) { e.getMessage(); }
+        } else try { file.createNewFile(); } catch (IOException e) { e.getMessage(); }
+        try (FileWriter fw = new FileWriter(file)) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            for (Order o : orders) fw.write(gson.toJson(o) + "\n");
+            fw.write(gson.toJson(order) + "\n");
         } catch (IOException e) { e.getMessage(); }
     }
 
@@ -81,18 +70,15 @@ public class ManagerOrderJSON extends AManageOrder {
     public Orders<Order> readAll() {
         if (file.exists() && file.length() != 0) {
             Orders<Order> orders = null;
-            JsonReader jr = null;
-            try {
+            try (JsonReader jr = new JsonReader(new FileReader(file))) {
                 orders = new Orders<>();
                 Gson gson = new GsonBuilder().create();
-                jr = new JsonReader(new FileReader(file));
                 jr.setLenient(true);
                 while (jr.peek() != JsonToken.END_DOCUMENT)
                     try {
                         orders.add(gson.fromJson(jr, Order.class));
                     } catch (ClassCastException e) { e.getMessage(); }
-            } catch (IOException e) { e.printStackTrace();
-            } finally { if (jr != null) try { jr.close(); } catch (IOException e) { e.printStackTrace(); } }
+            } catch (IOException e) { e.getMessage(); }
             return orders;
         }
         return null;
@@ -100,33 +86,26 @@ public class ManagerOrderJSON extends AManageOrder {
 
     @Override
     public void saveAll(Orders<Order> orders) {
-        try {
-            HashSet<UUID> ids = new HashSet<>();
-            for (Order o : orders.getOrders()) ids.add(o.getId());
-            ArrayList<Order> fileOrders = new ArrayList<>();
-            if (file.exists()) {
-                if (file.length() != 0) {
-                    JsonReader jr = null;
-                    try {
-                        Gson gson = new GsonBuilder().create();
-                        jr = new JsonReader(new FileReader(file));
-                        jr.setLenient(true);
-                        Order o;
-                        while (jr.peek() != JsonToken.END_DOCUMENT)
-                            try {
-                                o = gson.fromJson(jr, Order.class);
-                                if (!ids.contains(o.getId())) fileOrders.add(o);
-                            } catch (ClassCastException e) { e.getMessage(); }
-                    } finally { if (jr != null) try { jr.close(); } catch (IOException e) { e.printStackTrace(); } }
-                }
-            } else file.createNewFile();
-            FileWriter fw = null;
-            fileOrders.addAll(orders.getOrders());
-            try {
-                fw = new FileWriter(file);
-                Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                for (Order o : fileOrders) fw.write(gson.toJson(o) + "\n");
-            } finally { if (fw != null) try { fw.close(); } catch (IOException e) { e.getMessage(); } }
+        HashSet<UUID> ids = new HashSet<>();
+        for (Order o : orders.getOrders()) ids.add(o.getId());
+        ArrayList<Order> fileOrders = new ArrayList<>();
+        if (file.exists()) {
+            if (file.length() != 0)
+                try (JsonReader jr = new JsonReader(new FileReader(file))) {
+                    Gson gson = new GsonBuilder().create();
+                    jr.setLenient(true);
+                    Order o;
+                    while (jr.peek() != JsonToken.END_DOCUMENT)
+                        try {
+                            o = gson.fromJson(jr, Order.class);
+                            if (!ids.contains(o.getId())) fileOrders.add(o);
+                        } catch (ClassCastException e) { e.getMessage(); }
+                } catch (IOException e) { e.getMessage(); }
+        } else try { file.createNewFile(); } catch (IOException e) { e.printStackTrace(); }
+        fileOrders.addAll(orders.getOrders());
+        try (FileWriter fw = new FileWriter(file)) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            for (Order o : fileOrders) fw.write(gson.toJson(o) + "\n");
         } catch (IOException e) { e.getMessage(); }
     }
 }

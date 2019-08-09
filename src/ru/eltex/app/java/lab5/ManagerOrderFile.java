@@ -19,17 +19,14 @@ public class ManagerOrderFile extends AManageOrder {
     @Override
     public Order readById(UUID id) {
         if (file.exists())
-            try (FileInputStream fis = new FileInputStream(file)) {
-                if (fis.available() > 0) {
-                    ObjectInputStream ois = new ObjectInputStream(fis);
-                    Order order;
-                    while (fis.available() > 0) {
-                        try {
-                            order = (Order) ois.readObject();
-                            if (order.getId().equals(id)) return order;
-                        } catch (ClassNotFoundException e) {e.getMessage(); }
-                    }
-                }
+            try (FileInputStream fis = new FileInputStream(file);
+                 ObjectInputStream ois = new ObjectInputStream(fis)) {
+                Order order;
+                while (fis.available() > 0)
+                    try {
+                        order = (Order) ois.readObject();
+                        if (order.getId().equals(id)) return order;
+                    } catch (ClassNotFoundException e) { e.getMessage(); }
             } catch (IOException e) { e.getMessage(); }
         return null;
     }
@@ -40,38 +37,34 @@ public class ManagerOrderFile extends AManageOrder {
          * есть заказ с указанным id -> удалить и добавить заказ
          * нет заказа с указанным id -> добавить заказ
          */
-        try {
-            ArrayList<Order> orders = new ArrayList<>();
-            if (file.exists()) {
-                FileInputStream fis = new FileInputStream(file);
-                if (fis.available() > 0) {
-                    ObjectInputStream ois = new ObjectInputStream(fis);
-                    while (fis.available() > 0)
-                        try {
-                            Order o = (Order) ois.readObject();
-                            if (!o.getId().equals(order.getId())) orders.add(o);
-                        } catch (ClassNotFoundException e) { e.getMessage(); }
-                }
-            } else file.createNewFile();
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
+        ArrayList<Order> orders = new ArrayList<>();
+        if (file.exists())
+            try (FileInputStream fis = new FileInputStream(file);
+                 ObjectInputStream ois = new ObjectInputStream(fis)) {
+                while (fis.available() > 0)
+                    try {
+                        Order o = (Order) ois.readObject();
+                        if (!o.getId().equals(order.getId())) orders.add(o);
+                    } catch (ClassNotFoundException e) { e.getMessage(); }
+            } catch (IOException e) { e.getMessage(); }
+        else try { file.createNewFile(); } catch (IOException e) { e.getMessage(); }
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             for (Order o : orders) oos.writeObject(o);
             oos.writeObject(order);
-        } catch (IOException e) { e.getMessage(); }
+        } catch (IOException e) { e.printStackTrace(); }
     }
 
     @Override
     public Orders<Order> readAll() {
         if (file.exists()) {
             Orders<Order> orders = null;
-            try (FileInputStream fis = new FileInputStream(file)) {
-                if (fis.available() > 0) {
-                    orders = new Orders<>();
-                    ObjectInputStream ois = new ObjectInputStream(fis);
-                    while (fis.available() > 0)
-                        try {
-                            orders.add((Order) ois.readObject());
-                        } catch (ClassNotFoundException e) { e.getMessage(); }
-                }
+            try (FileInputStream fis = new FileInputStream(file);
+                 ObjectInputStream ois = new ObjectInputStream(fis)) {
+                orders = new Orders<>();
+                while (fis.available() > 0)
+                    try {
+                        orders.add((Order) ois.readObject());
+                    } catch (ClassNotFoundException e) { e.getMessage(); }
             } catch (IOException e) { e.getMessage(); }
             return orders;
         }
@@ -80,23 +73,21 @@ public class ManagerOrderFile extends AManageOrder {
 
     @Override
     public void saveAll(Orders<Order> orders) {
-        try {
-            HashSet<UUID> ids = new HashSet<>();
-            for (Order o : orders.getOrders()) ids.add(o.getId());
-            ArrayList<Order> fileOrders = new ArrayList<>();
-            if (file.exists()) {
-                FileInputStream fis = new FileInputStream(file);
-                if (fis.available() > 0) {
-                    ObjectInputStream ois = new ObjectInputStream(fis);
-                    Order o;
-                    while (fis.available() > 0)
-                        try {
-                            o = (Order) ois.readObject();
-                            if (!ids.contains(o.getId())) fileOrders.add(o);
-                        } catch (ClassNotFoundException e) { e.getMessage(); }
-                }
-            } else file.createNewFile();
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
+        HashSet<UUID> ids = new HashSet<>();
+        for (Order o : orders.getOrders()) ids.add(o.getId());
+        ArrayList<Order> fileOrders = new ArrayList<>();
+        if (file.exists())
+            try (FileInputStream fis = new FileInputStream(file);
+                 ObjectInputStream ois = new ObjectInputStream(fis)) {
+                Order o;
+                while (fis.available() > 0)
+                    try {
+                        o = (Order) ois.readObject();
+                        if (!ids.contains(o.getId())) fileOrders.add(o);
+                    } catch (ClassNotFoundException e) { e.getMessage(); }
+            } catch (IOException e) { e.getMessage(); }
+        else try { file.createNewFile(); } catch (IOException e) { e.printStackTrace(); }
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             fileOrders.addAll(orders.getOrders());
             for (Order o : fileOrders) oos.writeObject(o);
         } catch (IOException e) { e.getMessage(); }
