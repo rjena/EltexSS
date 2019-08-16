@@ -24,11 +24,13 @@ public class CheckProcessed extends ACheck {
             ArrayList<Order> ords = new ArrayList<>(orders.getOrders());
             for (Order o : ords)
                 if (o.getStatus().equals(OrderStatusEnum.Processed.name())) {
-                    /** При изменении на статус «обработан» клиенту по UDP высылается оповещение */
-                    try (DatagramSocket socket = new DatagramSocket()) {
-                        byte[] buf = "Processed".getBytes();
-                        socket.send(new DatagramPacket(buf, buf.length, o.getIp(), 8087));
-                    } catch (IOException e) { e.getMessage(); }
+                    if (o.getIp() != null) {
+                        /** При изменении на статус «обработан» клиенту по UDP высылается оповещение */
+                        try (DatagramSocket socket = new DatagramSocket()) {
+                            byte[] buf = "Processed".getBytes();
+                            socket.send(new DatagramPacket(buf, buf.length, o.getIp(), 8087));
+                        } catch (IOException e) { e.getMessage(); }
+                    }
                     synchronized (orders) {
                         orders.delete(o);
                     }
