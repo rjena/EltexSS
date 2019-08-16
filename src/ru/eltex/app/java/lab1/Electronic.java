@@ -147,4 +147,13 @@ public abstract class Electronic implements ICrudAction, Serializable {
         os = null;
         count--;
     }
+
+    @Override
+    public String toString() {
+        return "      " + getClass() + " (ID: " + id + ")" +
+                "\n        Price = " + price +
+                "\n        Name: " + name + ", Model: " + model +
+                "\n        Firm: " + firm +
+                "\n        Operating system: " + os;
+    }
 }

@@ -14,14 +14,16 @@ import java.util.Random;
 public class OrdersGenerator implements Runnable {
     private static Orders<Order> orders = new Orders<>();
     private static boolean fStop;
-    private static Electronic[] electronics;
-    private static int credN = 1;
+    private static Electronic[] electronics = null;
+    private Credentials credentials;
+//    private static int credN = 1;
     private Thread thread;
     private int sleepTime;
 
-    public OrdersGenerator(int sleep) {
-        int N = 20;
+    public OrdersGenerator(int sleep, Credentials credentials) {
+        this.credentials = credentials;
         if (electronics == null) {
+            int N = 20;
             electronics = new Electronic[3 * N];
             for (int i = 0; i < N; i++) {
                 (electronics[i] = new Phone()).create();
@@ -32,30 +34,26 @@ public class OrdersGenerator implements Runnable {
 
         sleepTime = sleep;
         thread = new Thread(this, "Sleep" + sleep);
-        System.out.println("New thread: " + thread);
+        System.out.println("New thread: User" + credentials.getId() + " | " + thread);
         thread.start();
     }
 
     @Override
     public void run() {
         while (!fStop) {
-            /** создание пользователя */
-            Credentials cred = new Credentials("Surname" + credN++, "Name" + credN++,
-                    "Patronym" + credN++, "Email" + credN++ + "@gmail.com");
+//            /** создание пользователя */
+//            Credentials cred = new Credentials("Surname" + credN++, "Name" + credN,
+//                    "Patronym" + credN, "Email" + credN + "@gmail.com");
             /** создание корзины */
             ShoppingCart<Electronic> shoppingCart = new ShoppingCart<>();
             for (int j = 0; j < new Random().nextInt(3) + 1; j++)
                 shoppingCart.add(electronics[new Random().nextInt(electronics.length)]);
             /** совершение покупки */
             synchronized (orders) {
-                orders.offer(shoppingCart, cred);
+                orders.offer(shoppingCart, credentials);
                 System.out.println("New order generated " + sleepTime + " (count = " + orders.getOrders().size() + ")");
             }
-            try {
-                Thread.sleep(sleepTime);
-            } catch (InterruptedException e) {
-                break;
-            }
+            try { Thread.sleep(sleepTime); } catch (InterruptedException e) { break; }
         }
     }
 

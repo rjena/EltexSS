@@ -5,6 +5,7 @@ import ru.eltex.app.java.lab2.Credentials;
 import ru.eltex.app.java.lab2.OrderStatusEnum;
 
 import java.io.Serializable;
+import java.net.InetAddress;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -55,6 +56,17 @@ public class Orders<O> implements Serializable {
          * и добавляется в класс-коллекцию «заказы»
          */
         Order order = new Order(creds, cart);
+        orders.add((O) order);
+        ordersByCreationTime.put(order.getCreationTime(), (O) order);
+    }
+
+    public void offer(ShoppingCart<Electronic> cart, Credentials creds, InetAddress ip) {
+        /**
+         * «корзина» с товарами объединяется в объект «заказ» вместе с данными пользователя
+         * и добавляется в класс-коллекцию «заказы»
+         * (ip пользователя добавлен)
+         */
+        Order order = new Order(creds, cart, ip);
         orders.add((O) order);
         ordersByCreationTime.put(order.getCreationTime(), (O) order);
     }

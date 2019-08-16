@@ -4,6 +4,9 @@ import ru.eltex.app.java.lab2.OrderStatusEnum;
 import ru.eltex.app.java.lab3.Order;
 import ru.eltex.app.java.lab3.Orders;
 
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.util.ArrayList;
 
 public class CheckProcessed extends ACheck {
@@ -20,18 +23,20 @@ public class CheckProcessed extends ACheck {
         while (!fStop) {
             ArrayList<Order> ords = new ArrayList<>(orders.getOrders());
             for (Order o : ords)
-                if (o.getStatus().equals(OrderStatusEnum.Processed.name()))
+                if (o.getStatus().equals(OrderStatusEnum.Processed.name())) {
+                    /** При изменении на статус «обработан» клиенту по UDP высылается оповещение */
+                    try (DatagramSocket socket = new DatagramSocket()) {
+                        byte[] buf = "Processed".getBytes();
+                        socket.send(new DatagramPacket(buf, buf.length, o.getIp(), 8087));
+                    } catch (IOException e) { e.getMessage(); }
                     synchronized (orders) {
                         orders.delete(o);
                     }
+                }
             synchronized (orders) {
                 System.out.println("Processed orders checked: " + ords.size() + " -> " + orders.getOrders().size());
             }
-            try {
-                Thread.sleep(SLEEPTIME + SLEEPTIME / 2);
-            } catch (InterruptedException e) {
-                break;
-            }
+            try { Thread.sleep(SLEEPTIME); } catch (InterruptedException e) { break; }
         }
     }
 }

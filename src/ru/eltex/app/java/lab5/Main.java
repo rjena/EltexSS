@@ -1,12 +1,14 @@
 package ru.eltex.app.java.lab5;
 
+import ru.eltex.app.java.lab2.Credentials;
 import ru.eltex.app.java.lab3.Order;
 import ru.eltex.app.java.lab3.Orders;
 import ru.eltex.app.java.lab4.OrdersGenerator;
 
 public class Main {
     public static void main(String[] args) {
-        OrdersGenerator orderGen1 = new OrdersGenerator(1000);
+        OrdersGenerator orderGen1 = new OrdersGenerator(1000,
+                new Credentials("Surname", "Name", "Patronym", "email@gmail.com"));
         try {
             Thread.sleep(5000);
             orderGen1.setStop();

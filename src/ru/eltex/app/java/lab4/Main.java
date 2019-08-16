@@ -1,9 +1,13 @@
 package ru.eltex.app.java.lab4;
 
+import ru.eltex.app.java.lab2.Credentials;
+
 public class Main {
     public static void main(String[] args) {
-        OrdersGenerator orderGen1 = new OrdersGenerator(1400);
-        OrdersGenerator orderGen2 = new OrdersGenerator(3200);
+        OrdersGenerator orderGen1 = new OrdersGenerator(1400,
+                new Credentials("Surname1", "Name1", "Patronym1", "email1@gmail.com"));
+        OrdersGenerator orderGen2 = new OrdersGenerator(3200,
+                new Credentials("Surname2", "Name2", "Patronym2", "email2@gmail.com"));
         CheckPending pendChecker = new CheckPending(orderGen1.getOrders());
         CheckProcessed procChecker = new CheckProcessed(orderGen1.getOrders());
 
