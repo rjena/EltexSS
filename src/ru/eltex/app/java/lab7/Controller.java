@@ -31,6 +31,10 @@ import java.util.UUID;
 public class Controller {
     private static final Logger logger = LogManager.getLogger(Controller.class);
 
+    /**
+     * При запросе в строке браузера http://localhost:[port]/?command=readall
+     * возвращаются все заказы в виде JSON.
+     * */
     @GetMapping(value = "/", params = {"command=readall"})
     public Orders<Order> readAll() {
         logger.info("ACT: Reading all Orders");
@@ -40,6 +44,10 @@ public class Controller {
         return orders;
     }
 
+    /**
+     * При запросе в строке браузера http://localhost:[port]/?command=readById&order_id=[id]
+     * возвращается обратно заказ с идентификатором [id] в виде JSON.
+     * */
     @GetMapping(value = "/", params = {"command=readById", "order_id"})
     public Order readById(@RequestParam("order_id") String id) {
         logger.info("ACT: Reading Order by ID: " + id);
@@ -49,10 +57,15 @@ public class Controller {
         return order;
     }
 
+    /**
+     * При запросе в строке браузера http://localhost:[port]/?command=addToCard&card_id=[id]
+     * генерируется товар и добавляется в корзину с идентификатором [id].
+     * Пользователю возвращается id нового товара.
+     * */
     @RequestMapping(value = "/", params = {"command=addToCard", "card_id"})
     public String addToCard(@RequestParam("card_id") String id) {
         logger.info("ACT: Adding new Order to Shopping Card with ID: " + id);
-        UUID oid = addToCardAndGetOrderId(UUID.fromString(id));
+        UUID oid = addToCardAndGetOrderId(Integer.parseInt(id));
         if (oid != null) {
             logger.info("RES: New Electronic with ID: " + oid.toString() +
                     " was added to Shopping Card with ID: " + id);
@@ -62,6 +75,11 @@ public class Controller {
         return null;
     }
 
+    /**
+     * При запросе в строке браузера http://localhost:[port]/?command=delById&order_id=[id]
+     * удаляется заказ с идентификатором [id].
+     * Пользователю возвращается 0 в случае успешного удаления и >1 если была ошибка.
+     * */
     @GetMapping(value = "/", params = {"command=delById", "order_id"})
     public String delById(@RequestParam("order_id") String id) {
         logger.info("ACT: Deleting Order by ID: " + id);
@@ -72,7 +90,7 @@ public class Controller {
         return res;
     }
 
-    private UUID addToCardAndGetOrderId(UUID id) {
+    private UUID addToCardAndGetOrderId(int id) {
         String pathname = new File("").getAbsolutePath() + "/src/ru/eltex/app/java/lab7/files/carts.txt";
         File file = new File(pathname);
         ArrayList<ShoppingCart<Electronic>> carts = new ArrayList<>();
@@ -87,8 +105,7 @@ public class Controller {
                     while (jr.peek() != JsonToken.END_DOCUMENT)
                         try {
                             sc = gson.fromJson(jr, ShoppingCart.class);
-                            if (!id.equals(sc.getId())) carts.add(sc);
-                            else cart = sc;
+                            if (id != sc.getId()) carts.add(sc); else cart = sc;
                         } catch (JsonIOException | JsonSyntaxException e) { e.getMessage(); }
                 } catch (IOException e) { e.getMessage(); }
         } else try { file.createNewFile(); } catch (IOException e) { e.getMessage(); }
