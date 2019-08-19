@@ -11,19 +11,21 @@ import java.util.UUID;
  * класс-коллекция для сгенерированных объектов
  */
 public class ShoppingCart<T extends Electronic> implements Serializable {
+    private UUID id;
     private LinkedList<T> shoppingCart;
     private HashSet<UUID> ids;
 
     public ShoppingCart() {
+        id = UUID.randomUUID();
         shoppingCart = new LinkedList<>();
         ids = new HashSet<>();
     }
 
     public ShoppingCart(LinkedList<T> electronics) {
+        id = UUID.randomUUID();
         this.shoppingCart = electronics;
         ids = new HashSet<>();
-        for (T e : electronics)
-            ids.add(e.getID());
+        for (T e : electronics) ids.add(e.getID());
     }
 
     /**
@@ -40,6 +42,10 @@ public class ShoppingCart<T extends Electronic> implements Serializable {
     public void delete(T e) {
         shoppingCart.remove(e);
         ids.remove(e.getID());
+    }
+
+    public UUID getId() {
+        return id;
     }
 
     public LinkedList<T> getCartItems() {

@@ -1,0 +1,63 @@
+{
+  "id": "323318d1-9948-4c5b-a1a0-04da80dd3bd1",
+  "shoppingCart": [
+    {
+      "videoProcessor": "Intel",
+      "screenResolution": "sr768x1024",
+      "id": "82c4069a-d8cd-47de-92e7-8ad714faae04",
+      "name": "aaaaa",
+      "price": 0.6262809607491922,
+      "firm": "Microsoft",
+      "model": "model1",
+      "os": "Flyme"
+    },
+    {
+      "videoProcessor": "Adreno",
+      "screenResolution": "sr768x1024",
+      "id": "57e1d9ba-9f43-457c-9479-ea68f3513e6e",
+      "name": "eeeee",
+      "price": 0.14550185185908704,
+      "firm": "Sony",
+      "model": "model5",
+      "os": "IOS"
+    }
+  ],
+  "ids": [
+    "82c4069a-d8cd-47de-92e7-8ad714faae04",
+    "57e1d9ba-9f43-457c-9479-ea68f3513e6e"
+  ]
+}
+{
+  "id": "87a4df47-66b5-4beb-b0c7-424d6816b489",
+  "shoppingCart": [],
+  "ids": []
+}
+{
+  "id": "9016e4c9-e3a6-406e-b1ff-f3513b8cf703",
+  "shoppingCart": [
+    {
+      "videoProcessor": "Intel",
+      "screenResolution": "sr768x1024",
+      "id": "43125eaa-0d49-4ad1-a57e-02febb2760d0",
+      "name": "ccccc",
+      "price": 0.8816151246243494,
+      "firm": "Apple",
+      "model": "model2",
+      "os": "Flyme"
+    },
+    {
+      "videoProcessor": "Adreno",
+      "screenResolution": "sr640x1136",
+      "id": "17a61609-2fbd-4c10-9fde-712e6cebf050",
+      "name": "ddddd",
+      "price": 0.573781638300603,
+      "firm": "Philips",
+      "model": "model5",
+      "os": "Remix"
+    }
+  ],
+  "ids": [
+    "43125eaa-0d49-4ad1-a57e-02febb2760d0",
+    "17a61609-2fbd-4c10-9fde-712e6cebf050"
+  ]
+}
