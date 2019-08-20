@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.eltex.app.java.lab3.Order;
 import ru.eltex.app.java.lab3.Orders;
 
+import java.util.HashMap;
+
 @RestController
 public class Controller {
     private static final Logger logger = LogManager.getLogger(Controller.class);
@@ -70,6 +72,10 @@ public class Controller {
 
     @ExceptionHandler(DeletingException.class)
     public String handleException(DeletingException  e) {
-        return ">1";
+        HashMap<String, Integer> out = new HashMap<>();
+        out.put("Нет такого заказа", 1);
+        out.put("Файл поврежден", 2);
+        out.put("Неправильная команда", 3);
+        return out.get(e.getMessage()).toString();
     }
 }
