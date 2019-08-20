@@ -25,6 +25,10 @@ public class ManagerOrderJSON extends AManageOrder {
         file = new File(pathname);
     }
 
+    public ManagerOrderJSON(String path) {
+        file = new File(path);
+    }
+
     @Override
     public Order readById(UUID id) {
         if (file.exists() && file.length() != 0) {

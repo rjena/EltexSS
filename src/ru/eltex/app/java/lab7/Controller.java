@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.eltex.app.java.lab3.Order;
 import ru.eltex.app.java.lab3.Orders;
 
-import java.util.UUID;
-
 @RestController
 public class Controller {
     private static final Logger logger = LogManager.getLogger(Controller.class);
@@ -46,10 +44,14 @@ public class Controller {
     @RequestMapping(value = "/", params = {"command=addToCard", "card_id"})
     public String addToCard(@RequestParam("card_id") String id) {
         logger.info("ACT: Adding new Electronic to Shopping Cart with ID: " + id);
-        UUID oid = new ManagerJSON().addToCardAndGetOrderId(Integer.parseInt(id));
-        logger.info("RES: New Electronic with ID: " + oid.toString() +
-                " was added to Shopping Cart with ID: " + id);
-        return "New Electronic ID: " + oid.toString();
+        String oid = new ManagerJSON().addToCardAndGetOrderId(id);
+        if (oid.equals("incorrect")) {
+            logger.info("RES: Incorrect Shopping Cart ID: " + id);
+            return "Incorrect ID!!! [ should be Integer more than 0 ]";
+        } else {
+            logger.info("RES: New Electronic with ID: " + oid + " was added to Shopping Cart with ID: " + id);
+            return "New Electronic ID: " + oid.toString();
+        }
     }
 
     /**

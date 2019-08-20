@@ -14,6 +14,7 @@ import ru.eltex.app.java.lab3.Order;
 import ru.eltex.app.java.lab3.Orders;
 import ru.eltex.app.java.lab3.ShoppingCart;
 import ru.eltex.app.java.lab5.ElectronicAdapter;
+import ru.eltex.app.java.lab5.ManagerOrderJSON;
 
 import java.io.File;
 import java.io.FileReader;
@@ -33,37 +34,13 @@ class ManagerJSON {
 
     Order readById(String id) {
         try { UUID uuid = UUID.fromString(id); } catch (IllegalArgumentException e) { return null; }
-        if (file.exists() && file.length() != 0) {
-            try (JsonReader jr = new JsonReader(new FileReader(file))) {
-                Gson gson = new GsonBuilder()
-                        .registerTypeAdapter(Electronic.class, new ElectronicAdapter()).create();
-                Order order;
-                while (jr.peek() != JsonToken.END_DOCUMENT)
-                    try {
-                        order = gson.fromJson(jr, Order.class);
-                        if (order.getId().toString().equals(id)) return order;
-                    } catch (ClassCastException e) { e.getMessage(); }
-            } catch (IOException e) { e.getMessage(); }
-        }
-        return null;
+        return new ManagerOrderJSON(new File("").getAbsolutePath() + pathname + "json.txt")
+                .readById(UUID.fromString(id));
     }
 
     Orders<Order> readAll() {
-        if (file.exists() && file.length() != 0) {
-            Orders<Order> orders = null;
-            try (JsonReader jr = new JsonReader(new FileReader(file))) {
-                orders = new Orders<>();
-                Gson gson = new GsonBuilder()
-                        .registerTypeAdapter(Electronic.class, new ElectronicAdapter()).create();
-                jr.setLenient(true);
-                while (jr.peek() != JsonToken.END_DOCUMENT)
-                    try {
-                        orders.add(gson.fromJson(jr, Order.class));
-                    } catch (JsonIOException | JsonSyntaxException e) { e.getMessage(); }
-            } catch (IOException e) { e.getMessage(); }
-            return orders;
-        }
-        return null;
+        return new ManagerOrderJSON(new File("").getAbsolutePath() + pathname + "json.txt")
+                .readAll();
     }
 
     String delById(String id) {
@@ -93,7 +70,10 @@ class ManagerJSON {
         else return "1";
     }
 
-    UUID addToCardAndGetOrderId(int id) {
+    String addToCardAndGetOrderId(String uuid) {
+        try { if (Integer.parseInt(uuid) < 1) return "incorrect"; }
+        catch (NumberFormatException | NullPointerException e) { return "incorrect"; }
+        int id = Integer.parseInt(uuid);
         File cartFile = new File(new File("").getAbsolutePath() + pathname + "carts.txt");
         ArrayList<ShoppingCart<Electronic>> carts = new ArrayList<>();
         ShoppingCart<Electronic> cart = null;
@@ -125,7 +105,7 @@ class ManagerJSON {
             if (cart == null) cart = new ShoppingCart<Electronic>(id);
             cart.add(e);
             fw.write(gson.toJson(cart) + "\n");
-            return e.getID();
+            return e.getID().toString();
         } catch (IOException e) { e.getMessage(); }
         return null;
     }
