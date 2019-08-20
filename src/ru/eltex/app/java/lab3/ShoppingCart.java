@@ -22,6 +22,12 @@ public class ShoppingCart<T extends Electronic> implements Serializable {
         ids = new HashSet<>();
     }
 
+    public ShoppingCart(int id) {
+        this.id = id;
+        shoppingCart = new LinkedList<>();
+        ids = new HashSet<>();
+    }
+
     public ShoppingCart(LinkedList<T> electronics) {
         id = counter++;
         this.shoppingCart = electronics;

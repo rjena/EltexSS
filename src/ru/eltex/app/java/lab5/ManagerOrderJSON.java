@@ -19,8 +19,7 @@ import java.util.HashSet;
 import java.util.UUID;
 
 public class ManagerOrderJSON extends AManageOrder {
-    private String pathname = new File("").getAbsolutePath() + "/src/ru/eltex/app/java/lab7/files/json.txt";
-    private File file;
+    private String pathname = new File("").getAbsolutePath() + "/src/ru/eltex/app/java/lab5/files/json.txt";
 
     public ManagerOrderJSON() {
         file = new File(pathname);
@@ -116,32 +115,5 @@ public class ManagerOrderJSON extends AManageOrder {
                     .setPrettyPrinting().create();
             for (Order o : fileOrders) fw.write(gson.toJson(o) + "\n");
         } catch (IOException e) { e.getMessage(); }
-    }
-
-    public String delById(String id) {
-        try { UUID uuid = UUID.fromString(id); } catch (NumberFormatException e) { return "3"; }
-        boolean exist = false;
-        ArrayList<Order> orders = new ArrayList<>();
-        if (file.exists())
-            if (file.length() != 0)
-                try (JsonReader jr = new JsonReader(new FileReader(file))) {
-                    Gson gson = new GsonBuilder()
-                            .registerTypeAdapter(Electronic.class, new ElectronicAdapter()).create();
-                    jr.setLenient(true);
-                    Order o;
-                    while (jr.peek() != JsonToken.END_DOCUMENT)
-                        try {
-                            o = gson.fromJson(jr, Order.class);
-                            if (!id.equals(o.getId().toString())) orders.add(o); else exist = true;
-                        } catch (JsonIOException | JsonSyntaxException e) { return "2"; }
-                } catch (IOException e) { return "2"; }
-        if (exist)
-            try (FileWriter fw = new FileWriter(file)) {
-                Gson gson = new GsonBuilder().registerTypeAdapter(Electronic.class, new ElectronicAdapter())
-                        .setPrettyPrinting().create();
-                for (Order o : orders) fw.write(gson.toJson(o) + "\n");
-                return "0";
-            } catch (IOException e) { return "2"; }
-        else return "1";
     }
 }

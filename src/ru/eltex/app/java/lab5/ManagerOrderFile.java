@@ -10,7 +10,6 @@ import java.util.UUID;
 
 public class ManagerOrderFile extends AManageOrder {
     private String pathname = new File("").getAbsolutePath() + "/src/ru/eltex/app/java/lab5/files/bin.dat";
-    private File file;
 
     public ManagerOrderFile() {
         file = new File(pathname);
