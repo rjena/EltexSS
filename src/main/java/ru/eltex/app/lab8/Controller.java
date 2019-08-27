@@ -7,10 +7,15 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.eltex.app.lab1.Electronic;
+import ru.eltex.app.lab2.Credentials;
 import ru.eltex.app.lab3.Order;
 import ru.eltex.app.lab3.Orders;
-import ru.eltex.app.lab5.ElectronicAdapter;
+import ru.eltex.app.lab3.ShoppingCart;
 import ru.eltex.app.lab7.DeletingException;
+import ru.eltex.app.lab8.adapters.CredentialsAdapter;
+import ru.eltex.app.lab8.adapters.ElectronicAdapter;
+import ru.eltex.app.lab8.adapters.OrderAdapter;
+import ru.eltex.app.lab8.adapters.ShoppingCartAdapter;
 
 import java.util.HashMap;
 
@@ -18,7 +23,14 @@ import java.util.HashMap;
 public class Controller {
     private static final Logger logger = LogManager.getLogger(Controller.class);
     @Autowired private ServiceDB service;
-    private final Gson gson = new GsonBuilder().registerTypeAdapter(Electronic.class, new ElectronicAdapter()).create();
+    private final Gson gson = new GsonBuilder()
+            .serializeNulls()
+            .registerTypeAdapter(Electronic.class, new ElectronicAdapter())
+            .registerTypeAdapter(ShoppingCart.class, new ShoppingCartAdapter())
+            .registerTypeAdapter(Credentials.class, new CredentialsAdapter())
+            .registerTypeAdapter(Order.class, new OrderAdapter())
+            .setPrettyPrinting()
+            .create();
 
     /**
      * При запросе в строке браузера http://localhost:[port]/?command=readall

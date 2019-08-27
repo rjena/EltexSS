@@ -34,7 +34,6 @@ public class Credentials implements Serializable {
     @Size(max = 50)
     private String email;
 
-    //@Type(type = "ru.eltex.app.lab3.Order")
     @OneToMany(mappedBy = "credentials", targetEntity = Order.class, fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private List<Order> orders;

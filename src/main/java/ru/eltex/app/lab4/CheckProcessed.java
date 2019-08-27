@@ -7,6 +7,7 @@ import ru.eltex.app.lab3.Orders;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.util.ArrayList;
 
 public class CheckProcessed extends ACheck {
@@ -28,7 +29,7 @@ public class CheckProcessed extends ACheck {
                         /** При изменении на статус «обработан» клиенту по UDP высылается оповещение */
                         try (DatagramSocket socket = new DatagramSocket()) {
                             byte[] buf = "Processed".getBytes();
-                            socket.send(new DatagramPacket(buf, buf.length, o.getIp(), 8087));
+                            socket.send(new DatagramPacket(buf, buf.length, InetAddress.getByName(o.getIp()), 8087));
                         } catch (IOException e) { e.getMessage(); }
                     }
                     synchronized (orders) {

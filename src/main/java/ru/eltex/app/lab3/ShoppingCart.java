@@ -1,6 +1,5 @@
 package ru.eltex.app.lab3;
 
-import org.hibernate.annotations.Type;
 import ru.eltex.app.lab1.Electronic;
 
 import javax.persistence.*;
@@ -18,7 +17,6 @@ public class ShoppingCart<T extends Electronic> implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    //@Type(type = "ru.eltex.app.lab1.Electronic")
     @OneToMany(mappedBy = "cart", targetEntity = Electronic.class, fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private List<T> shoppingCart;
@@ -26,7 +24,6 @@ public class ShoppingCart<T extends Electronic> implements Serializable {
     @Transient
     private Set<String> ids;
 
-    //@Type(type = "ru.eltex.app.lab3.Order")
     @OneToMany(mappedBy = "cart", targetEntity = Order.class, fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private List<Order> orders;

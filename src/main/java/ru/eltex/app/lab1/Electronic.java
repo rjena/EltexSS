@@ -20,6 +20,7 @@ import java.util.UUID;
 public abstract class Electronic implements ICrudAction, Serializable {
     static int count = 0;
 
+    @Type(type = "ru.eltex.app.lab3.ShoppingCart")
     @ManyToOne(targetEntity = ShoppingCart.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_id")
     private ShoppingCart cart;

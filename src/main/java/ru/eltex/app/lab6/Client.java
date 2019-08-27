@@ -40,7 +40,7 @@ public class Client implements Runnable {
                      *  и устанавливает соединение по TCP. Оправляет заказ. Отсоединяется от сервера */
                     int port = Integer.parseInt(new String(Arrays.copyOf(dp.getData(), dp.getLength())));
                     InetAddress ip = dp.getAddress();
-                    order = new Order(credentials, new ShoppingCart<Electronic>(), ip);
+                    order = new Order(credentials, new ShoppingCart<Electronic>(), ip.toString());
                     try (ObjectOutputStream oos = new ObjectOutputStream(new Socket(ip, port).getOutputStream())) {
                         oos.writeObject(order);
                         statusNotification = false;

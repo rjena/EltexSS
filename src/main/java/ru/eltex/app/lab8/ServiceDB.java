@@ -9,9 +9,9 @@ import ru.eltex.app.lab1.Tablet;
 import ru.eltex.app.lab3.Order;
 import ru.eltex.app.lab3.Orders;
 import ru.eltex.app.lab3.ShoppingCart;
-import ru.eltex.app.lab8.repository.ElectronicRepository;
-import ru.eltex.app.lab8.repository.OrderRepository;
-import ru.eltex.app.lab8.repository.ShoppingCartRepository;
+import ru.eltex.app.lab8.repositories.ElectronicRepository;
+import ru.eltex.app.lab8.repositories.OrderRepository;
+import ru.eltex.app.lab8.repositories.ShoppingCartRepository;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;

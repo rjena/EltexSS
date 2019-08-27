@@ -60,7 +60,7 @@ public class Orders<O> implements Serializable {
         ordersByCreationTime.put(order.getCreationTime(), (O) order);
     }
 
-    public void offer(ShoppingCart<Electronic> cart, Credentials creds, InetAddress ip) {
+    public void offer(ShoppingCart<Electronic> cart, Credentials creds, String ip) {
         /**
          * «корзина» с товарами объединяется в объект «заказ» вместе с данными пользователя
          * и добавляется в класс-коллекцию «заказы»

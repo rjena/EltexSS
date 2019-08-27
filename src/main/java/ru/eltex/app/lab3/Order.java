@@ -9,7 +9,6 @@ import ru.eltex.app.lab2.OrderStatusEnum;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.net.InetAddress;
 import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
@@ -34,16 +33,18 @@ public class Order implements Serializable {
     @Column(name = "waiting_time")
     private int waitingTime; // через cколько секунд заказ должен исчезнуть (должен быть обработан)
 
+    @Type(type = "ru.eltex.app.lab2.Credentials")
     @ManyToOne(targetEntity = Credentials.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "cred_id", nullable = false)
     private Credentials credentials;
 
+    @Type(type = "ru.eltex.app.lab3.ShoppingCart")
     @ManyToOne(targetEntity = ShoppingCart.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_id")
     private ShoppingCart<Electronic> cart;
 
     @Column(name = "client_ip")
-    private InetAddress ip;
+    private String ip;
 
     public Order() {
         id = UUID.randomUUID();
@@ -65,7 +66,7 @@ public class Order implements Serializable {
         ip = null;
     }
 
-    public Order(Credentials credentials, ShoppingCart<Electronic> shoppingCart, InetAddress ip) {
+    public Order(Credentials credentials, ShoppingCart<Electronic> shoppingCart, String ip) {
         id = UUID.randomUUID();
         status = OrderStatusEnum.Pending.name();
         creationTime = new Date();
@@ -107,7 +108,7 @@ public class Order implements Serializable {
         return cart;
     }
 
-    public InetAddress getIp() {
+    public String getIp() {
         return ip;
     }
 
