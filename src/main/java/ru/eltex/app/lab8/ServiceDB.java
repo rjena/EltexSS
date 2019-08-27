@@ -9,9 +9,9 @@ import ru.eltex.app.lab1.Tablet;
 import ru.eltex.app.lab3.Order;
 import ru.eltex.app.lab3.Orders;
 import ru.eltex.app.lab3.ShoppingCart;
-import ru.eltex.app.lab8.repositories.ElectronicRepository;
-import ru.eltex.app.lab8.repositories.OrderRepository;
-import ru.eltex.app.lab8.repositories.ShoppingCartRepository;
+import ru.eltex.app.lab8.repositories.ElectronicRepo;
+import ru.eltex.app.lab8.repositories.OrderRepo;
+import ru.eltex.app.lab8.repositories.ShoppingCartRepo;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -20,24 +20,24 @@ import java.util.UUID;
 
 @Service
 public class ServiceDB {
-    @Autowired private ElectronicRepository electronicRepository;
-    @Autowired private ShoppingCartRepository shoppingCartRepository;
-    @Autowired private OrderRepository orderRepository;
+    @Autowired private ElectronicRepo electronicRepo;
+    @Autowired private ShoppingCartRepo shoppingCartRepo;
+    @Autowired private OrderRepo orderRepo;
 
     public Order readById(String id) {
-        try { return orderRepository.findById(UUID.fromString(id)).get(); }
+        try { return orderRepo.findById(UUID.fromString(id)).get(); }
         catch (Exception e) { return null; }
     }
 
     public Orders<Order> readAll() {
-        return new Orders<>(new ArrayList<>(orderRepository.findAll()));
+        return new Orders<>(new ArrayList<>(orderRepo.findAll()));
     }
 
     public String delById(String id) {
         try { UUID uuid = UUID.fromString(id); } catch (IllegalArgumentException e) { return "3"; }
         Order o = readById(id);
         if (o != null) {
-            orderRepository.delete(o);
+            orderRepo.delete(o);
             return "0";
         } else return "1";
     }
@@ -47,7 +47,7 @@ public class ServiceDB {
         catch (NumberFormatException | NullPointerException e) { return "incorrect"; }
         int id = Integer.parseInt(uuid);
         ShoppingCart cart;
-        try { cart = shoppingCartRepository.findById(id).get(); }
+        try { cart = shoppingCartRepo.findById(id).get(); }
         catch (NoSuchElementException ex) { cart = new ShoppingCart<Electronic>(id); }
         Electronic e;
         int t = new Random().nextInt(3);
@@ -58,8 +58,8 @@ public class ServiceDB {
         try {
             e.setCart(cart);
             cart.add(e);
-            shoppingCartRepository.saveAndFlush(cart);
-            electronicRepository.saveAndFlush(e);
+            shoppingCartRepo.saveAndFlush(cart);
+            electronicRepo.saveAndFlush(e);
             return e.getID().toString();
         } catch (Exception ex) { ex.getMessage(); }
         return null;
