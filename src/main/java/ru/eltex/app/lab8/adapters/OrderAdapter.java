@@ -10,11 +10,12 @@ import ru.eltex.app.lab3.ShoppingCart;
 
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class OrderAdapter implements JsonSerializer<Order> {
     @Override
     public JsonElement serialize(Order src, Type typeOfSrc, JsonSerializationContext context) {
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy, h:mm:ss a");
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy, h:mm:ss a", Locale.ENGLISH);
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("id", src.getId().toString());
         jsonObject.addProperty("status", src.getStatus());

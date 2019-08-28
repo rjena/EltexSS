@@ -31,18 +31,20 @@ public class Controller {
             .registerTypeAdapter(Order.class, new OrderAdapter())
             .setPrettyPrinting()
             .create();
+    private final Gson gsonForPrettyInBrowser = new GsonBuilder()
+            .registerTypeAdapter(Electronic.class, new ElectronicAdapter()).create();
 
     /**
      * При запросе в строке браузера http://localhost:[port]/?command=readall
      * возвращаются все заказы в виде JSON.
      * */
     @GetMapping(value = "/", params = {"command=readall"})
-    public String readAll() {
+    public Orders readAll() {
         logger.info("ACT: Reading all Orders");
         Orders<Order> orders = service.readAll();
         if (orders != null) logger.info("RES: All Orders were read");
         else logger.info("RES: There are no one Order...");
-        return gson.toJson(orders);
+        return gsonForPrettyInBrowser.fromJson(gson.toJson(orders), Orders.class);
     }
 
     /**
@@ -50,12 +52,16 @@ public class Controller {
      * возвращается обратно заказ с идентификатором [id] в виде JSON.
      * */
     @GetMapping(value = "/", params = {"command=readById", "order_id"})
-    public String readById(@RequestParam("order_id") String id) {
+    public Order readById(@RequestParam("order_id") String id) {
         logger.info("ACT: Reading Order by ID: " + id);
         Order order = service.readById(id);
-        if (order != null) logger.info("RES: Order with ID: " + id + " was read");
-        else logger.info("RES: There are no Order with ID: " + id);
-        return gson.toJson(order);
+        if (order != null) {
+            logger.info("RES: Order with ID: " + id + " was read");
+            return gsonForPrettyInBrowser.fromJson(gson.toJson(order), Order.class);
+        } else {
+            logger.info("RES: There are no Order with ID: " + id);
+            return null;
+        }
     }
 
     /**
