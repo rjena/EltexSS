@@ -96,6 +96,12 @@ public class Controller {
         return res;
     }
 
+    @GetMapping(value = "/", params = {"command=start"})
+    public String start() {
+        service.addOrders();
+        return "OK";
+    }
+
     @ExceptionHandler(DeletingException.class)
     public String handleException(DeletingException e) {
         HashMap<String, Integer> out = new HashMap<>();

@@ -69,7 +69,6 @@ public class ServiceDB {
         return null;
     }
 
-    @Bean
     public String addOrders() {
         int count = 0;
         while (count < 3) {
